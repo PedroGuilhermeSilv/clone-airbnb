@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import SearchFilters from "./SearchFilters";
 
 const NavBar = () => {
   return (
@@ -9,7 +10,9 @@ const NavBar = () => {
           <Link href="">
             <Image width={180} height={38} alt="Logo bnb" src="/logo.png" />
           </Link>
-          <div className="flex space-x-6">Search Filter</div>
+          <div className="flex space-x-6">
+            <SearchFilters></SearchFilters>
+          </div>
           <div className="flex space-x-6">Add property</div>
         </div>
       </div>
