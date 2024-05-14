@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import SearchFilters from "./SearchFilters";
+import UserNav from "./UserNav";
+import AddPropertyButton from "./AddPropertyButton";
 
 const NavBar = () => {
   return (
@@ -11,9 +13,11 @@ const NavBar = () => {
             <Image width={180} height={38} alt="Logo bnb" src="/logo.png" />
           </Link>
           <div className="flex space-x-6">
-            <SearchFilters></SearchFilters>
+            <SearchFilters />
           </div>
-          <div className="flex space-x-6">Add property</div>
+          <div className="flex items-center space-x-6">
+            <AddPropertyButton /> <UserNav />
+          </div>
         </div>
       </div>
     </nav>
