@@ -7,7 +7,7 @@ import AddPropertyButton from "./AddPropertyButton";
 const NavBar = () => {
   return (
     <nav className="w-full fixed top-0 left-0 py-6 border-b bg-white z-10">
-      <div className="max-w-[1500px] mx-auto px-3">
+      <div className="max-w-[1500px] mx-auto ">
         <div className="flex justify-between items-center">
           <Link href="">
             <Image width={180} height={38} alt="Logo bnb" src="/logo.png" />

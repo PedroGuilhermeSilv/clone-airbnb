@@ -5,7 +5,7 @@
 ### Front-End
 - [x] Install and setup up Nestjs create project
 - [x] Code for nav bar
-- [ ] Categories on the front page (static)
+- [x] Categories on the front page (static)
 - [ ] List properties on the front page (static)
 - [ ] Detail page for properties (static)
 - [ ] Landlord page (static)
