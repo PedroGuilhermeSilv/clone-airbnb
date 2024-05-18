@@ -7,7 +7,7 @@
 - [x] Code for nav bar
 - [x] Categories on the front page (static)
 - [x] List properties on the front page (static)
-- [ ] Detail page for properties (static)
+- [x] Detail page for properties (static)
 - [ ] Landlord page (static)
 - [ ] My reservations 
 - [ ] My properties
