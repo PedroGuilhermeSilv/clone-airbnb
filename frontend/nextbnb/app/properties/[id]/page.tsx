@@ -1,6 +1,6 @@
 import Image from "next/image";
 import ReservationSidebar from "@/app/components/properties/ReservationSidebar";
-const PropertyDetail = () => {
+const PropertyDetailPage = () => {
   return (
     <main className="max-w-[1500px] mb-6 mx-auto px-6">
       <div className="w-full h-[64vh] mb-9 overflow-hidden rounded-xl relative">
@@ -49,4 +49,4 @@ const PropertyDetail = () => {
   );
 };
 
-export default PropertyDetail;
+export default PropertyDetailPage

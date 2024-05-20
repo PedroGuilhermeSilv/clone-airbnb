@@ -1,12 +1,12 @@
 import PropertyListItem from "./PropertyListItem";
 const PropertyList = () => {
-
-    return <>
-        <PropertyListItem />
-        <PropertyListItem />
-        <PropertyListItem />
-        <PropertyListItem />
+  return (
+    <>
+      {Array.from({ length: 20 }).map((item, i) => (
+        <PropertyListItem key={i} />
+      ))}
     </>
-}
+  );
+};
 
 export default PropertyList;
