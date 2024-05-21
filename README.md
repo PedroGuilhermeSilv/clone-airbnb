@@ -9,10 +9,10 @@
 - [x] List properties on the front page (static)
 - [x] Detail page for properties (static)
 - [x] Landlord page (static)
-- [ ] My reservations 
-- [ ] My properties
-- [ ] Inbox page
-- [ ] Detail page for chat
+- [x] My reservations 
+- [x] My properties
+- [x] Inbox page
+- [x] Detail page for chat
 - [ ] User menu popup
 - [ ] Create reusable modal window
 - [ ] Login modal (window error)
