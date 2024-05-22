@@ -13,7 +13,7 @@
 - [x] My properties
 - [x] Inbox page
 - [x] Detail page for chat
-- [ ] User menu popup
+- [x] User menu popup
 - [ ] Create reusable modal window
 - [ ] Login modal (window error)
 - [ ] Sing up modal (window error)
