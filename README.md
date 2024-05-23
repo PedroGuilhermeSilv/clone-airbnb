@@ -16,7 +16,7 @@
 - [x] User menu popup
 - [x] Create reusable modal window
 - [x] Login modal (window error)
-- [ ] Sing up modal (window error)
+- [x] Sing up modal (window error)
 - [ ] Detail page for properties
 - [ ] Book property
 - [ ] Land lord page dynamic
