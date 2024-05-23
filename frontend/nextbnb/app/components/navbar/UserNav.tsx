@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import MenuLink from "./MenuLink";
+import useLoginModal from "../hooks/useLoginModal";
 
 const UserNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const loginModel = useLoginModal();
   return (
     <div className="p-2 relative inline-block border rounded-full">
-      <button onClick={()=> setIsOpen(!isOpen)} className="items-center flex">
+      <button onClick={() => setIsOpen(!isOpen)} className="items-center flex">
         <svg
           fill="none"
           viewBox="0 0 24 24"
@@ -37,7 +39,13 @@ const UserNav = () => {
       </button>
       {isOpen && (
         <div className="absolute w-[220px] top-[60px right-0 border bg-white rounded-xl shadow-md">
-          <MenuLink label="Log in" onClick={() => console.log("Log in")} />
+          <MenuLink
+            label="Log in"
+            onClick={() => {
+              setIsOpen(false);
+              loginModel.open();
+            }}
+          />
           <MenuLink label="Sign up" onClick={() => console.log("Sign up")} />
         </div>
       )}

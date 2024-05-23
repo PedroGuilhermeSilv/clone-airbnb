@@ -14,8 +14,8 @@
 - [x] Inbox page
 - [x] Detail page for chat
 - [x] User menu popup
-- [ ] Create reusable modal window
-- [ ] Login modal (window error)
+- [x] Create reusable modal window
+- [x] Login modal (window error)
 - [ ] Sing up modal (window error)
 - [ ] Detail page for properties
 - [ ] Book property

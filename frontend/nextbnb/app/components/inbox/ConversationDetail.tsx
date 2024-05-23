@@ -20,7 +20,7 @@ const ConversationDetail = () => {
           placeholder="Type your message..."
           className="bg-gray-200 w-full p-2 mr-2 rounded-xl"
         />
-        <CustomButton className="w-[100px]" label="send" onClick={() => console.log("send")} />
+        <CustomButton className="w-[10%]" label="send" onClick={() => console.log("send")} />
       </div>
     </>
   );
