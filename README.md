@@ -27,7 +27,7 @@
     - [ ] Send data
 
 ### Back-end
-- [ ] Set up docker for django with postgresql, etc
+- [x] Set up docker for django with postgresql, etc
     - [ ] Install DFR, cors, headers etc
 - [ ] Create user model /  config 
 - [ ] Create model serializer for properties
