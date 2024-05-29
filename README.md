@@ -28,9 +28,9 @@
 
 ### Back-end
 - [x] Set up docker for django with postgresql, etc
-    - [ ] Install DFR, cors, headers etc
+    - [x] Install DFR, cors, headers etc
 - [x] Create user model /  config 
-- [ ] Create model serializer for properties
+- [x] Create model serializer for properties
 - [ ] Get properties in the front end and list them 
 - [ ] Implement authentication
     - [ ] Log in

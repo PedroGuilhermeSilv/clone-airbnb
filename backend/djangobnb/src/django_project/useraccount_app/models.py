@@ -1,5 +1,6 @@
-from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
 import uuid
+
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 
 
@@ -35,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True, blank=True, null=True) 
+    last_login = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     objects = CustomManager()
 

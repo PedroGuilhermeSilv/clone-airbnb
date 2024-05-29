@@ -22,11 +22,11 @@ USER python
 WORKDIR /home/python/app
 
 COPY . /home/python/app
-COPY .ssh /root/.ssh
 
 
 
-ENV MY_PYTHON_PACKAGES=/home/python/app/__pypackages__/3.11
+
+ENV MY_PYTHON_PACKAGES=/home/python/app/.venv
 ENV PYTHONPATH=${PYTHONPATH}/home/python/app/src
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $PATH:${MY_PYTHON_PACKAGES}/bin
@@ -45,8 +45,8 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc && \
     echo "HISTFILE=/home/python/zsh/.zsh_history" >> ~/.zshrc && \
-    echo 'eval "$(pdm --pep582)"' >> ~/.zshrc && \
-    echo 'eval "$(pdm --pep582)"' >> ~/.bashrc 
+    echo 'eval "$(pdm)"' >> ~/.zshrc && \
+    echo 'eval "$(pdm)"' >> ~/.bashrc 
     
 
 
