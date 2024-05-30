@@ -9,15 +9,6 @@ class PropertiesListSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "title",
-            "description",
+            "image_url",
             "price_per_night",
-            "bedrooms",
-            "bathrooms",
-            "guests",
-            "country",
-            "country_code",
-            "category",
-            "image",
-            "landlord",
-            "created_at",
         )

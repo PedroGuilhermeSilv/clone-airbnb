@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
             managers=[
-                ('objects', src.django_project.useraccount_app.models.CustomManager()),
+                ('objects', src.django_project.useraccount_app.models.CustomUserManager()),
             ],
         ),
     ]

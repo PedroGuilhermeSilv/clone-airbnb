@@ -31,7 +31,8 @@
     - [x] Install DFR, cors, headers etc
 - [x] Create user model /  config 
 - [x] Create model serializer for properties
-- [ ] Get properties in the front end and list them 
+- [x] Get properties in the front end and list them 
+- [ ] Create api service file (And use it in the properties list)
 - [ ] Implement authentication
     - [ ] Log in
     - [ ] Sign up
