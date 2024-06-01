@@ -17,6 +17,7 @@
 - [x] Create reusable modal window
 - [x] Login modal (window error)
 - [x] Sing up modal (window error)
+- [x] Create api service file (And use it in the properties list)
 - [ ] Detail page for properties
 - [ ] Book property
 - [ ] Land lord page dynamic
@@ -32,11 +33,10 @@
 - [x] Create user model /  config 
 - [x] Create model serializer for properties
 - [x] Get properties in the front end and list them 
-- [ ] Create api service file (And use it in the properties list)
-- [ ] Implement authentication
-    - [ ] Log in
-    - [ ] Sign up
-    - [ ] Log out 
+- [x] Implement authentication
+    - [x] Log in
+    - [x] Sign up
+    - [x] Log out 
 - [ ] Make it possible to set property as favorite
 - [ ] My favorites page (with listings)
 - [ ] My reservations dynamic

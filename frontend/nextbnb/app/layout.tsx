@@ -23,9 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <NavBar />
         <div className="pt-32">{children}</div>
-      </body>
       <LoginModal />
       <SingupModal />
+      </body>
     </html>
   );
 }
