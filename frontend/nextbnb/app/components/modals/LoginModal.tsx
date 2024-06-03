@@ -30,8 +30,8 @@ const LoginModal = () => {
       handleLogin(response.user.pk, response.access, response.refresh);
       
       loginModal.close();
-      router.refresh();
       router.push("/");
+      router.refresh();
 
     } else {
       const tmpErrors: string[] = Object.values(response).map((error: any) => {
