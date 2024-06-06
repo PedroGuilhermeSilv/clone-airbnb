@@ -9,7 +9,7 @@ const Categories = () => {
           height={30}
           alt="icon"
         />
-        <span className="text-xs">Categoires</span> 
+        <span className="text-xs">Beach</span> 
       </div>
       <div className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white opacity-60 hover:border-gray-200 hover:opacity-100">
         <Image
@@ -18,7 +18,7 @@ const Categories = () => {
           height={30}
           alt="icon"
         />
-        <span className="text-xs">Itens</span>  
+        <span className="text-xs">Villas</span>  
       </div>
       <div className="pb-4 flex flex-col items-center space-y-2 border-b-2 border-white opacity-60 hover:border-gray-200 hover:opacity-100">
         <Image
@@ -27,7 +27,7 @@ const Categories = () => {
           height={30}
           alt="icon"
         />
-        <span className="text-xs">Property</span> 
+        <span className="text-xs">Cabins</span> 
       </div>
     </div>
   );
