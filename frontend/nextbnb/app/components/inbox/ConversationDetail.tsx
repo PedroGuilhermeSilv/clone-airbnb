@@ -14,13 +14,13 @@ const ConversationDetail = () => {
           <p> asldkjfnalksdjfhnasdlkfjasdf</p>
         </div>
       </div>
-      <div className=" mt-4 py-4 px-6 flex border border-gray-300 rounded-xl p-2">
+      <div className=" justify-between mt-4 py-4 px-6 flex border border-gray-300 rounded-xl p-2">
         <input
           type="text"
           placeholder="Type your message..."
           className=" bg-gray-200 w-full p-2 mr-2 rounded-xl"
         />
-        <CustomButton className="w-[9%]" label="send" onClick={() => console.log("send")} />
+        <CustomButton className="w-[10%]"  label="send" onClick={() => console.log("send")} />
       </div>
     </>
   );

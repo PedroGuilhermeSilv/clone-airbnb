@@ -23,16 +23,17 @@ const LoginModal = () => {
     };
     const response = await apiService.post(
       "/api/auth/login/",
-      JSON.stringify(formData)
+      JSON.stringify(formData),
+      "application/json",
+      "application/json"
     );
 
     if (response.access) {
       handleLogin(response.user.pk, response.access, response.refresh);
-      
+
       loginModal.close();
       router.push("/");
       router.refresh();
-
     } else {
       const tmpErrors: string[] = Object.values(response).map((error: any) => {
         return error;

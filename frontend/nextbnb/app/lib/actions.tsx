@@ -39,3 +39,9 @@ export async function getUserId() {
 
   return user ? user : null;
 }
+
+export async function getAccessToken() {
+  const token = cookies().get("session_access_token")?.value;
+
+  return token ? token : null;
+}

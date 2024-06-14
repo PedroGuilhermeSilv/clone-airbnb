@@ -23,14 +23,15 @@ const SingupModal = () => {
     };
     const response = await apiService.post(
       "/api/auth/register/",
-      JSON.stringify(formData)
+      JSON.stringify(formData),
+      "application/json",
+      "application/json"
     );
 
     if (response.access) {
       handleLogin(response.user.pk, response.access, response.refresh);
       singupModal.close();
       router.push("/");
-      router.refresh();
     } else {
       const tmpErros: string[] = Object.values(response).map((error: any) => {
         return error;

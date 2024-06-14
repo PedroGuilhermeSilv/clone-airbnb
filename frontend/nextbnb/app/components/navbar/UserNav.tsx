@@ -5,13 +5,15 @@ import MenuLink from "./MenuLink";
 import useLoginModal from "../hooks/useLoginModal";
 import useSingupModal from "../hooks/useSingupModal";
 import LogoutButton from "../LogoutButton";
+import { useRouter } from "next/navigation";
 
 interface UserNavProps {
   userId?: string | null;
 }
 
-const UserNav: React.FC<UserNavProps> = ({userId}) => {
+const UserNav: React.FC<UserNavProps> = ({ userId }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const loginModel = useLoginModal();
   const singupModel = useSingupModal();
   return (
@@ -47,7 +49,17 @@ const UserNav: React.FC<UserNavProps> = ({userId}) => {
       {isOpen && (
         <div className="absolute w-[220px] top-[60px right-0 border bg-white rounded-xl shadow-md">
           {userId ? (
-            <LogoutButton />
+            <>
+              <MenuLink
+                label="My properties"
+                onClick={() => router.push("/myproperties")}
+              />
+              <MenuLink
+                label="My reservation"
+                onClick={() => router.push("/myreservations")}
+              />
+              <LogoutButton />
+            </>
           ) : (
             <>
               <MenuLink
