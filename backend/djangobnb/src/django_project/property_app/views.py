@@ -9,6 +9,7 @@ from src.django_project.property_app.forms import PropertyForm
 from src.django_project.property_app.models import Property, Reservation
 from src.django_project.property_app.serializers import (
     PropertiesDetailSerializer,
+    PropertiesLisFavoritedtSerializer,
     PropertiesListSerializer,
     ReservationListSerializer,
 )
@@ -20,9 +21,12 @@ from src.django_project.property_app.serializers import (
 def properties_list(request):
     properties = Property.objects.all()
 
+    serializer = PropertiesListSerializer(properties, many=True)
     if landloard_id := request.GET.get("landloard", ""):
         properties = properties.filter(landlord=landloard_id)
-    serializer = PropertiesListSerializer(properties, many=True)
+        serializer = PropertiesLisFavoritedtSerializer(properties, many=True)
+    if request.GET.get("favorited", ""):
+        serializer = PropertiesLisFavoritedtSerializer(properties, many=True)
     return JsonResponse(
         {
             "data": serializer.data,

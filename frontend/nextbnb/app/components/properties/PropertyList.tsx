@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import PropertyListItem from "./PropertyListItem";
 import apiService from "../../service/apiService";
+import { getUserId } from "@/app/lib/actions";
 
 export type PropertyType = {
   id: string;
@@ -17,6 +18,7 @@ interface PropertyListProps {
 }
 const PropertyList: React.FC<PropertyListProps> = ({ landloard }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
+  const [userId, setUserId] = useState<string | undefined>();
   const markAsFavorite = (id: string, favorited: boolean) => {
     const tmpProperties = properties.map((property: PropertyType) => {
       if (property.id === id) {
@@ -32,9 +34,12 @@ const PropertyList: React.FC<PropertyListProps> = ({ landloard }) => {
     setProperties(tmpProperties);
   };
   const getPropertyList = async () => {
+    const id = await getUserId();
     let url = "/api/properties";
     if (landloard) {
       url = `/api/properties?landloard=${landloard}`;
+    } else if (id) {
+      url = `/api/properties?favorited=${id}`;
     }
 
     const response = await apiService.get(url);

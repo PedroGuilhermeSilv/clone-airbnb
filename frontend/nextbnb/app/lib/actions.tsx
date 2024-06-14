@@ -37,11 +37,11 @@ export async function resetAuthCookies() {
 export async function getUserId() {
   const user = cookies().get("session_userId")?.value;
 
-  return user ? user : null;
+  return user ? user : undefined;
 }
 
 export async function getAccessToken() {
   const token = cookies().get("session_access_token")?.value;
 
-  return token ? token : null;
+  return token ? token : undefined;
 }

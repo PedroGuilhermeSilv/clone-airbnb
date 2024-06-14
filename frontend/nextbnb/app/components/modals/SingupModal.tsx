@@ -32,6 +32,7 @@ const SingupModal = () => {
       handleLogin(response.user.pk, response.access, response.refresh);
       singupModal.close();
       router.push("/");
+      router.refresh();
     } else {
       const tmpErros: string[] = Object.values(response).map((error: any) => {
         return error;

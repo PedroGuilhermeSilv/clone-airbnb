@@ -19,13 +19,15 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       `/api/properties/${id}/toggle-favorite/`,
       {}
     );
+    console.log("botao")
+    console.log(is_favorited)
     markAsFavorite(response.is_favorited);
   };
   return (
     <div
       onClick={toggleFavorite}
-      className={`absolute top-2 rigth-2 ${
-        is_favorited ? "text-white" : "text-airbnb-dark"
+      className={`absolute top-2 right-2  ${
+        is_favorited ? "text-airbnb-dark":"text-white" 
       } hover:text-airbnb-dark`}
     >
       <svg

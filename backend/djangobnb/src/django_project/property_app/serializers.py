@@ -5,6 +5,23 @@ from src.django_project.useraccount_app.serializers import UserDetailSerializer
 
 
 class PropertiesListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Property
+        fields = (
+            "id",
+            "title",
+            "image_url",
+            "price_per_night",
+        )
+
+
+class PropertiesLisFavoritedtSerializer(serializers.ModelSerializer):
+    favorited = serializers.SerializerMethodField()
+
+    def get_favorited(self, obj):
+        return obj.favorited.exists()
+
     class Meta:
         model = Property
         fields = (
