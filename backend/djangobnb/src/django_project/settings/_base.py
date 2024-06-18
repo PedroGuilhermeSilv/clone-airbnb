@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth.registration",
     "corsheaders",
+    "daphne",
 ]
 
 MIDDLEWARE = [
@@ -109,6 +110,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "src.django_project.urls"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
 TEMPLATES = [
     {
@@ -127,7 +134,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "src.django_project.wsgi.application"
-
+WSGI_APPLICATION = "src.django_project.asgi.application"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

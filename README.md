@@ -28,6 +28,7 @@
     - [x] Create modal
     - [x] API endpoint
     - [x] Send data
+- [x] Make conversation dynamic
 
 ### Back-end
 - [x] Set up docker for django with postgresql, etc
@@ -40,7 +41,6 @@
     - [x] Sign up
     - [x] Log out 
 - [x] Make it possible to set property as favorite
-- [ ] Make conversation dynamic
 - [ ] Set up web sockets in the backend
 - [ ] Make it possible connect
 - [ ] Send/receive messages

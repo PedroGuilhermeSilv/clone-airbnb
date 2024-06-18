@@ -19,6 +19,7 @@ dependencies = [
     "dj-rest-auth>=6.0.0",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
+    "daphne>=4.1.2",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
