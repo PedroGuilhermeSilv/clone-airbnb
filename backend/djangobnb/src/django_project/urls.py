@@ -7,6 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/properties/", include("src.django_project.property_app.urls")),
     path("api/auth/", include("src.django_project.useraccount_app.urls")),
+    path("api/chat/", include("src.django_project.chat_app.urls")),
 ]
 
 

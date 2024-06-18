@@ -6,6 +6,7 @@ import useLoginModal from "../hooks/useLoginModal";
 import useSingupModal from "../hooks/useSingupModal";
 import LogoutButton from "../LogoutButton";
 import { useRouter } from "next/navigation";
+import { set } from "date-fns";
 
 interface UserNavProps {
   userId?: string | null;
@@ -51,12 +52,32 @@ const UserNav: React.FC<UserNavProps> = ({ userId }) => {
           {userId ? (
             <>
               <MenuLink
+                label="Inbox"
+                onClick={() => {
+                  router.push("/inbox");
+                  setIsOpen(false);
+                }}
+              />
+              <MenuLink
                 label="My properties"
-                onClick={() => router.push("/myproperties")}
+                onClick={() => {
+                  router.push("/myproperties");
+                  setIsOpen(false);
+                }}
               />
               <MenuLink
                 label="My reservation"
-                onClick={() => router.push("/myreservations")}
+                onClick={() => {
+                  router.push("/myreservations");
+                  setIsOpen(false);
+                }}
+              />
+              <MenuLink
+                label="My favorites"
+                onClick={() => {
+                  router.push("/myfavorites");
+                  setIsOpen(false);
+                }}
               />
               <LogoutButton />
             </>

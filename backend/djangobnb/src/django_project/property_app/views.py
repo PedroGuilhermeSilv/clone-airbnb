@@ -4,32 +4,48 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
+from rest_framework_simplejwt.tokens import AccessToken
 
 from src.django_project.property_app.forms import PropertyForm
 from src.django_project.property_app.models import Property, Reservation
 from src.django_project.property_app.serializers import (
     PropertiesDetailSerializer,
-    PropertiesLisFavoritedtSerializer,
     PropertiesListSerializer,
     ReservationListSerializer,
 )
+from src.django_project.useraccount_app.models import User
 
 
 @api_view(["GET"])
 @authentication_classes([])
 @permission_classes([])
 def properties_list(request):
-    properties = Property.objects.all()
+    try:
+        token = request.META["HTTP_AUTHORIZATION"].split("Bearer ")[1]
+        token = AccessToken(token)
+        user_id = token.payload["user_id"]
+        user = User.objects.get(pk=user_id)
+    except Exception:
+        user = None
 
-    serializer = PropertiesListSerializer(properties, many=True)
+    properties = Property.objects.all()
+    favorites = []
+
     if landloard_id := request.GET.get("landloard", ""):
         properties = properties.filter(landlord=landloard_id)
-        serializer = PropertiesLisFavoritedtSerializer(properties, many=True)
-    if request.GET.get("favorited", ""):
-        serializer = PropertiesLisFavoritedtSerializer(properties, many=True)
+
+    if user:
+        for property in properties:
+            if user in property.favorited.all():
+                favorites.append(property.id)
+    if request.GET.get("favorites", ""):
+        properties = properties.filter(id__in=favorites)
+
+    serializer = PropertiesListSerializer(properties, many=True)
     return JsonResponse(
         {
             "data": serializer.data,
+            "favorites": favorites,
         },
     )
 

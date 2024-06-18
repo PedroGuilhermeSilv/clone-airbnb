@@ -23,7 +23,7 @@
 - [x] Land lord page dynamic
 - [x] My properties dynamic
 - [x] My reservations dynamic
-- [ ] My favorites page (with listings)
+- [x] My favorites page (with listings)
 - [x] Add properties from nextjs
     - [x] Create modal
     - [x] API endpoint
@@ -39,7 +39,7 @@
     - [x] Log in
     - [x] Sign up
     - [x] Log out 
-- [ ] Make it possible to set property as favorite
+- [x] Make it possible to set property as favorite
 - [ ] Make conversation dynamic
 - [ ] Set up web sockets in the backend
 - [ ] Make it possible connect

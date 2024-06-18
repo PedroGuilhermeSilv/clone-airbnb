@@ -25,7 +25,7 @@ export type PropertyType = {
 };
 
 interface ReservationSidebarProps {
-  userId: string | null;
+  userId?: string;
   property: PropertyType;
 }
 const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
@@ -59,15 +59,14 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
 
       const response = await apiService.post(
         `/api/properties/${property.id}/book/`,
-        formData,
-        "application/json",
-        "application/json"
+        formData
       );
 
       if (response.data === "Property booked successfully") {
         console.log("Booking successful");
       } else {
         console.log("Booking failed");
+        console.log(formData);
       }
     } else {
       longinModal.open();

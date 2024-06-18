@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "src.django_project.useraccount_app",
     "src.django_project.property_app",
+    "src.django_project.chat_app",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",

@@ -15,10 +15,13 @@ export type PropertyType = {
 
 interface PropertyListProps {
   landloard?: string;
+  favorites?: boolean;
 }
-const PropertyList: React.FC<PropertyListProps> = ({ landloard }) => {
+const PropertyList: React.FC<PropertyListProps> = ({
+  landloard,
+  favorites,
+}) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [userId, setUserId] = useState<string | undefined>();
   const markAsFavorite = (id: string, favorited: boolean) => {
     const tmpProperties = properties.map((property: PropertyType) => {
       if (property.id === id) {
@@ -38,13 +41,22 @@ const PropertyList: React.FC<PropertyListProps> = ({ landloard }) => {
     let url = "/api/properties";
     if (landloard) {
       url = `/api/properties?landloard=${landloard}`;
-    } else if (id) {
-      url = `/api/properties?favorited=${id}`;
+    } else if (favorites) {
+      url = `/api/properties?favorites=${favorites}`;
     }
 
     const response = await apiService.get(url);
 
-    setProperties(response.data);
+    setProperties(
+      response.data.map((property: PropertyType) => {
+        if (response.favorites.includes(property.id)) {
+          property.favorited = true;
+        } else {
+          property.favorited = false;
+        }
+        return property;
+      })
+    );
   };
 
   useEffect(() => {

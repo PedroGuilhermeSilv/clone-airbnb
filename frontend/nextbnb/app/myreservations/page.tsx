@@ -15,7 +15,7 @@ const MyReservationsPage = async () => {
                   <div className="relative overflow-hidden max-h-100 aspect-square rounded-xl">
                     <Image
                       fill
-                      src="/beach_1.jpg"
+                      src={reservation.property.image_url}
                       alt="Property"
                       className="hover:scale-110 object-cover rounded-xl transition w-full h-full"
                     />
@@ -36,9 +36,12 @@ const MyReservationsPage = async () => {
                   <p className="pb-4">
                     <strong>Total price:</strong> {reservation.total_price}
                   </p>
-                <Link className="bg-airbnb p-5 mt-6 inline-block cursor-pointer rounded-xl text-white" href={`/properties/${reservation.property.id}`}>
-                  Go to property
-                </Link>
+                  <Link
+                    className="bg-airbnb p-5 mt-6 inline-block cursor-pointer rounded-xl text-white"
+                    href={`/properties/${reservation.property.id}`}
+                  >
+                    Go to property
+                  </Link>
                 </div>
               </div>
             </>
