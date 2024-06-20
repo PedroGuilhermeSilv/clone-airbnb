@@ -2,8 +2,11 @@
 
 import { ConversationType } from "@/app/inbox/page";
 import CustomButton from "../forms/CustomButton";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef, use } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import { send } from "process";
+import { MessageType } from "@/app/inbox/[id]/page";
+import { UserType } from "@/app/inbox/page";
 interface ConversationDetailProps {
   token: string;
   userId: string;
@@ -16,6 +19,9 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
   token,
 }) => {
   console.log(conversation);
+  const messagesDiv = useRef(null);
+  const [newMessage, setNewMessage] = useState("");
+  const [realtimeMessages, setRealTimeMessages] = useState<MessageType[]>([]);
   const myUser = conversation.users.find((user) => user.id == userId);
   const otherUser = conversation.users.find((user) => user.id !== userId);
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
@@ -29,29 +35,76 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
   useEffect(() => {
     console.log("Connection state changed", readyState);
   }, [readyState]);
+
+  useEffect(() => {
+    if (
+      lastJsonMessage &&
+      typeof lastJsonMessage === "object" &&
+      "name" in lastJsonMessage &&
+      "body" in lastJsonMessage
+    ) {
+      const message: MessageType = {
+        id: "",
+        name: lastJsonMessage.name as string,
+        body: lastJsonMessage.body as string,
+        conversationId: conversation.id,
+        sent_to: otherUser as UserType,
+        created_by: myUser as UserType,
+      };
+      setRealTimeMessages((realtimeMessages) => [...realtimeMessages, message]);
+    }
+  }, [lastJsonMessage]);
+  const sendMessage = async () => {
+    sendJsonMessage({
+      event: "chat_message",
+      data: {
+        body: newMessage,
+        name: myUser?.name,
+        sent_to_id: otherUser?.id,
+        conversation_id: conversation.id,
+      },
+    });
+
+    setNewMessage("");
+
+    setTimeout(() => {
+      scrollToBottom();
+    }, 50);
+  };
+  const scrollToBottom = () => {
+    if (messagesDiv.current) {
+      messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
+    }
+  };
   return (
     <>
-      <div className=" h-max[400px] flex flex-col overflow-auto space-y-4">
-        <div className=" w-[80%] bg-gray-200 rounded-xl px-6 py-4">
-          <p className="font-bold text-gray-600"> {otherUser?.name}</p>
-          <p> asldkjfnalksdjfhnasdlkfjasdf</p>
-        </div>
-        <div className=" w-[80%] ml-[20%] bg-blue-200 rounded-xl px-6 py-4">
-          <p className="font-bold text-gray-600"> Pedro Guilherme</p>
-          <p> asldkjfnalksdjfhnasdlkfjasdf</p>
-        </div>
+      <div
+        ref={messagesDiv}
+        className=" h-max[400px] flex flex-col overflow-auto space-y-4"
+      >
+        {realtimeMessages.map((message, index) => (
+          <div
+            key={index}
+            className={`w-[80%] px-6 py-4 rounded-xl ${
+              message.name === myUser?.name
+                ? "ml-[20%] bg-blue-200"
+                : "bg-gray-200"
+            }`}
+          >
+            <p className="font-bold text-gray-500">{message.name}</p>
+            <p>{message.body}</p>
+          </div>
+        ))}
       </div>
       <div className=" justify-between mt-4 py-4 px-6 flex border border-gray-300 rounded-xl p-2">
         <input
           type="text"
           placeholder="Type your message..."
           className=" bg-gray-200 w-full p-2 mr-2 rounded-xl"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
         />
-        <CustomButton
-          className="w-[10%]"
-          label="send"
-          onClick={() => console.log("send")}
-        />
+        <CustomButton className="w-20" label="send" onClick={sendMessage} />
       </div>
     </>
   );
