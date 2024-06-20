@@ -14,3 +14,16 @@ def conversations_list(request):
         },
         safe=False,
     )
+
+
+@api_view(["GET"])
+def conversation_detail(request, pk):
+    conversation = request.user.conversations.get(id=pk)
+    serializer = ConversationListSerialzier(conversation, many=False)
+
+    return JsonResponse(
+        {
+            "conversation": serializer.data,
+        },
+        safe=False,
+    )

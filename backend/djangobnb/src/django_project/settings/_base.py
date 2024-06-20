@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "src.django_project.useraccount_app",
     "src.django_project.property_app",
@@ -94,7 +95,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth.registration",
     "corsheaders",
-    "daphne",
 ]
 
 MIDDLEWARE = [
@@ -134,7 +134,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "src.django_project.wsgi.application"
-WSGI_APPLICATION = "src.django_project.asgi.application"
+ASGI_APPLICATION = "src.django_project.asgi.application"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -1,7 +1,21 @@
 "use client";
 
+import { ConversationType } from "@/app/inbox/page";
 import CustomButton from "../forms/CustomButton";
-const ConversationDetail = () => {
+import React from "react";
+
+interface ConversationDetailProps {
+  userId: string;
+  conversation: ConversationType;
+}
+
+const ConversationDetail: React.FC<ConversationDetailProps> = ({
+  conversation,
+  userId,
+}) => {
+  console.log(conversation);
+  // const myUser = conversation.users.find((user) => user.id == userId);
+  // const otherUser = conversation.users.find((user) => user.id !== userId);
   return (
     <>
       <div className=" h-max[400px] flex flex-col overflow-auto space-y-4">
@@ -20,7 +34,11 @@ const ConversationDetail = () => {
           placeholder="Type your message..."
           className=" bg-gray-200 w-full p-2 mr-2 rounded-xl"
         />
-        <CustomButton className="w-[10%]"  label="send" onClick={() => console.log("send")} />
+        <CustomButton
+          className="w-[10%]"
+          label="send"
+          onClick={() => console.log("send")}
+        />
       </div>
     </>
   );

@@ -13,10 +13,10 @@ const Conversation: React.FC<ConversationProps> = ({
   conversation,
 }) => {
   const router = useRouter();
-  const user = conversation.users.find((user) => user.id !== userId);
+  const otherUser = conversation.users.find((user) => user.id !== userId);
   return (
     <div className="border border-gray-300 rounded-xl p-6 cursor-pointer ">
-      <p className="text-xl font-medium pb-5"> {user?.name}</p>
+      <p className="text-xl font-medium pb-5"> {otherUser?.name}</p>
       <p
         onClick={() => {
           router.push(`/inbox/${conversation.id}`);

@@ -1,11 +1,42 @@
-
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
-const ConversationPage = () => {
-  return (
-    <main className="max-w-[1500px]  mx-auto px-6 pb-6">
-      <ConversationDetail />
+import { getUserId } from "@/app/lib/actions";
+import { UserType } from "../page";
+import apiService from "@/app/service/apiService";
+
+export type MessageType = {
+  id: string;
+  name: string;
+  body: string;
+  conversationId: string;
+  sent_to: UserType;
+  created_by: UserType;
+};
+
+const ConversationPage = async ({ params }: { params: { id: string } }) => {
+  const userId = await getUserId();
+  if (!userId) {
+    return (
+      <main className="max-w-[1500px] max-auto px-6 py-12">
+        <div className="text-center">
+          <p className="text-2xl font-medium">
+            Please login to view your chat.
+          </p>
+        </div>
       </main>
     );
-}
+  }
+  const conversation = await apiService.get(`/api/chat/${params.id}`);
+  ()=>{
+  console.log(conversation);
+  }  
+  return (
+    <>
+      <main className="max-w-[1500px]  mx-auto px-6 pb-6">
+        <ConversationDetail userId={userId} conversation={conversation.conversation} />
+      </main>
+      ;
+    </>
+  );
+};
 
 export default ConversationPage;
