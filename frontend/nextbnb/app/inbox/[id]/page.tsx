@@ -2,6 +2,7 @@ import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import { getUserId } from "@/app/lib/actions";
 import { UserType } from "../page";
 import apiService from "@/app/service/apiService";
+import { getAccessToken } from "@/app/lib/actions";
 
 export type MessageType = {
   id: string;
@@ -14,7 +15,8 @@ export type MessageType = {
 
 const ConversationPage = async ({ params }: { params: { id: string } }) => {
   const userId = await getUserId();
-  if (!userId) {
+  const token = await getAccessToken();
+  if (!userId || !token) {
     return (
       <main className="max-w-[1500px] max-auto px-6 py-12">
         <div className="text-center">
@@ -26,13 +28,15 @@ const ConversationPage = async ({ params }: { params: { id: string } }) => {
     );
   }
   const conversation = await apiService.get(`/api/chat/${params.id}`);
-  ()=>{
-  console.log(conversation);
-  }  
+  () => {};
   return (
     <>
       <main className="max-w-[1500px]  mx-auto px-6 pb-6">
-        <ConversationDetail userId={userId} conversation={conversation.conversation} />
+        <ConversationDetail
+          token={token}
+          userId={userId}
+          conversation={conversation.conversation}
+        />
       </main>
       ;
     </>
