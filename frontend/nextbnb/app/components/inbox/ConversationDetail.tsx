@@ -11,17 +11,20 @@ interface ConversationDetailProps {
   token: string;
   userId: string;
   conversation: ConversationType;
+  messages: MessageType[];
 }
 
 const ConversationDetail: React.FC<ConversationDetailProps> = ({
   conversation,
   userId,
   token,
+  messages,
 }) => {
   console.log(conversation);
   const messagesDiv = useRef(null);
   const [newMessage, setNewMessage] = useState("");
   const [realtimeMessages, setRealTimeMessages] = useState<MessageType[]>([]);
+  const [oldMessages, setOldMessages] = useState<MessageType[]>([]);
   const myUser = conversation.users.find((user) => user.id == userId);
   const otherUser = conversation.users.find((user) => user.id !== userId);
   const { sendJsonMessage, readyState, lastJsonMessage } = useWebSocket(
@@ -31,6 +34,8 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
       shouldReconnect: () => true,
     }
   );
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     console.log("Connection state changed", readyState);
@@ -82,11 +87,24 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         ref={messagesDiv}
         className=" h-max[400px] flex flex-col overflow-auto space-y-4"
       >
+         {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`w-[80%] px-6 py-4 rounded-xl ${
+              message.created_by.name === myUser?.name
+                ? "ml-[20%] bg-blue-200"
+                : "bg-gray-200"
+            }`}
+          >
+            <p className="font-bold text-gray-500">{message.created_by.name}</p>
+            <p>{message.body}</p>
+          </div>
+        ))}
         {realtimeMessages.map((message, index) => (
           <div
             key={index}
             className={`w-[80%] px-6 py-4 rounded-xl ${
-              message.name === myUser?.name
+              message.name == myUser?.name
                 ? "ml-[20%] bg-blue-200"
                 : "bg-gray-200"
             }`}

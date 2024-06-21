@@ -41,11 +41,11 @@
     - [x] Sign up
     - [x] Log out 
 - [x] Make it possible to set property as favorite
-- [ ] Set up web sockets in the backend
-- [ ] Make it possible connect
-- [ ] Send/receive messages
-- [ ] Store and load messages
-- [ ] Start new conversation
+- [x] Set up web sockets in the backend
+- [x] Make it possible connect
+- [x] Send/receive messages
+- [x] Store and load messages
+- [x] Start new conversation
 - [ ] Set up search filters
     - [ ] Modal for search filter
     - [ ] Country search

@@ -20,12 +20,13 @@ const LandLordDetaiPage = async ({ params }: { params: { id: string } }) => {
             />
             <h1 className="mt-6 text-2xl"> {landlord.name}</h1>
 
-            {userId === params.id ? null : <ContactButton />}
+            {userId === params.id ? null : (
+              <ContactButton userId={userId} landlord_id={params.id} />
+            )}
           </div>
         </aside>
         <div className="grid grid-cols-2 col-span-3 gap-4  md:grid-cols-4 ">
-          <PropertyList
-          landloard={params.id} />
+          <PropertyList landloard={params.id} />
         </div>
       </div>
     </main>

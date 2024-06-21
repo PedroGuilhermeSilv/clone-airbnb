@@ -26,4 +26,9 @@ class ConversationMessage(models.Model):
         on_delete=models.CASCADE,
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        User,
+        related_name="sent_messages",
+        on_delete=models.CASCADE,
+    )
     modified_at = models.DateTimeField(auto_now=True)

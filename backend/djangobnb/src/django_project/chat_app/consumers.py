@@ -1,6 +1,9 @@
 import json
 
+from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+
+from src.django_project.chat_app.models import ConversationMessage
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -38,8 +41,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
             },
         )
 
+        await self.save_message(conversation_id, sent_to_id, body)
+
     async def chat_message(self, event):
         body = event["body"]
         name = event["name"]
 
         await self.send(text_data=json.dumps({"body": body, "name": name}))
+
+    @sync_to_async
+    def save_message(self, conversation_id, sent_to_id, body):
+        user = self.scope["user"]
+        ConversationMessage.objects.create(
+            conversation_id=conversation_id,
+            sent_to_id=sent_to_id,
+            created_by=user,
+            body=body,
+        )
