@@ -7,7 +7,9 @@ from rest_framework.decorators import (
 
 from src.django_project.property_app.serializers import ReservationListSerializer
 from src.django_project.useraccount_app.models import User
-from src.django_project.useraccount_app.serializers import UserDetailSerializer
+from src.django_project.useraccount_app.serializers import (
+    UserDetailSerializer,
+)
 
 
 @api_view(["GET"])

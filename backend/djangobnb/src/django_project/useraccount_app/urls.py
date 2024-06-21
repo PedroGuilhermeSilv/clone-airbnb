@@ -4,7 +4,10 @@ from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from src.django_project.useraccount_app.views import reservation_list, user_detail
+from src.django_project.useraccount_app.views import (
+    reservation_list,
+    user_detail,
+)
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),

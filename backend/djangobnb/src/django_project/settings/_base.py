@@ -63,6 +63,9 @@ REST_FRAMEWORK = {
     ],
 }
 
+REST_AUTH  = {
+    "REGISTER_SERIALIZER": "src.django_project.useraccount_app.serializers.CustomRegisterSerializer",
+}
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",

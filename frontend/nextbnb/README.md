@@ -42,5 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 ## Bugs:
-[ ] Arrumar o apiService para retornar o status da response
-[ ] quando não se tem uma conversation ele da error por causa do map (crie uma tela para conversas vazias)
+- [ ] Arrumar o apiService para retornar o status da response e tipar o tipo do retorno.
+- [ ] Quando não se tem uma conversation ele da error por causa do map (crie uma tela para conversas vazias).
+- [ ] No forms de criação adicionar nome.
+- [ ] Criar tela para atualizar o perfil.

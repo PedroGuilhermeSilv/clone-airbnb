@@ -14,12 +14,14 @@ const SingupModal = () => {
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [name, setName] = useState("");
 
   const submitSingup = async () => {
     const formData = {
       email: email,
       password1: password1,
       password2: password2,
+      name: name,
     };
     const response = await apiService.post(
       "/api/auth/register/",
@@ -44,6 +46,12 @@ const SingupModal = () => {
   const content = (
     <div className=" space-y-4">
       <form action={submitSingup} className="space-y-5">
+      <input
+          onChange={(e) => setName(e.target.value)}
+          className="rounded-xl border border-gray-100 w-full  h-[54px] p-3"
+          placeholder="Text your username"
+          type="text"
+        />
         <input
           onChange={(e) => setEmail(e.target.value)}
           className="rounded-xl border border-gray-100 w-full  h-[54px] p-3"
