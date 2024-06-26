@@ -54,8 +54,9 @@ const AddPropertyModal = () => {
       formData.append("bedrooms", dataBedrooms);
       formData.append("bathrooms", dataBathrooms);
       formData.append("guests", dataGuests);
-      formData.append("country", dataCountry.value);
+      formData.append("country", dataCountry.label);
       formData.append("image", image);
+      formData.append("category", dataCategory);
       console.log(formData.values());
       const response = await apiService.post(
         "/api/properties/create/",
@@ -63,7 +64,7 @@ const AddPropertyModal = () => {
       );
       if (response.data === "Property created successfully") {
         console.log("success");
-        router.push("/");
+        router.push("/?added=true");
         addPropertyModal.close();
         router.refresh();
       } else {
@@ -82,7 +83,7 @@ const AddPropertyModal = () => {
         <>
           <h2 className="mb-6 text-2xl"> Choose category</h2>
 
-          <Categories dataCategory={dataCategory} setCategory={setCategory} />
+          <Categories dataCategory={dataCategory} setCategory={(category) => setCategory(category)} />
 
           <CustomButton label="Next" onClick={() => setCurrentStep(2)} />
         </>

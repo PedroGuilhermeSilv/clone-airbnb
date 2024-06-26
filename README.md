@@ -29,6 +29,13 @@
     - [x] API endpoint
     - [x] Send data
 - [x] Make conversation dynamic
+- [x] Set up search filters
+    - [x] Modal for search filter
+    - [x] Country search
+    - [x] Calendar for check in / check out dates
+    - [x] Search details (number guests, bedrooms, etc)
+    - [x] Choose between categories on the front page
+    - [x] Update page when add property
 
 ### Back-end
 - [x] Set up docker for django with postgresql, etc
@@ -46,13 +53,9 @@
 - [x] Send/receive messages
 - [x] Store and load messages
 - [x] Start new conversation
-- [ ] Set up search filters
-    - [ ] Modal for search filter
-    - [ ] Country search
-    - [ ] Calendar for check in / check out dates
-    - [ ] Search details (number guests, bedrooms, etc)
-    - [ ] API endpoint
-    - [ ] Choose between categories on the front page
+- [x] Set up search filters
+    - [x] API endpoint
+
 
 ### Deploy
 - [ ] Deployment 

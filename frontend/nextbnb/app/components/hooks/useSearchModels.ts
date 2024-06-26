@@ -2,9 +2,9 @@
 import { create } from "zustand";
 
 export type SearchQuery = {
-  country: string;
-  checkIn: Date | null;
-  checkOut: Date | null;
+  country: string | undefined;
+  checkIn: Date | undefined;
+  checkOut: Date | undefined;
   guests: number;
   bathrooms: number;
   bedrooms: number;
@@ -20,15 +20,15 @@ interface SearchModalStore {
   setQuery: (query: SearchQuery) => void;
 }
 
-const useSearchLoginModal = create<SearchModalStore>((set) => ({
+const useSearchModal = create<SearchModalStore>((set) => ({
   isOpen: false,
   step: "location",
   open: (step) => set({ isOpen: true, step: step }),
   close: () => set({ isOpen: false }),
   query: {
     country: "",
-    checkIn: null,
-    checkOut: null,
+    checkIn: undefined,
+    checkOut: undefined,
     guests: 1,
     bathrooms: 0,
     bedrooms: 0,
@@ -37,4 +37,4 @@ const useSearchLoginModal = create<SearchModalStore>((set) => ({
   setQuery: (query) => set({ query: query }),
 }));
 
-export default useSearchLoginModal;
+export default useSearchModal;

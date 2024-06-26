@@ -1,5 +1,5 @@
 "use client";
-import useSearchLoginModal from "../hooks/useSearchModels";
+import useSearchLoginModal, { SearchQuery } from "../hooks/useSearchModels";
 import Modal from "./Modal";
 import SelectCountry, { SelectCountryValue } from "../forms/SelectCountry";
 import { useState } from "react";
@@ -16,8 +16,25 @@ const initialDateRange: Range = {
 const SearchModal = () => {
   let content = <></>;
   const searchModal = useSearchLoginModal();
+  const [numGuests, setNumGuests] = useState<string>("1");
+  const [numBedrooms, setNumBedrooms] = useState<string>("1");
+  const [numBathrooms, setNumBathrooms] = useState<string>("1");
   const [country, setCountry] = useState<SelectCountryValue>();
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+
+  const closeAndSearch = () => {
+    const newSearchQuery: SearchQuery = {
+      country: country?.label,
+      checkIn: dateRange.startDate,
+      checkOut: dateRange.endDate,
+      guests: parseInt(numGuests),
+      bedrooms: parseInt(numBedrooms),
+      bathrooms: parseInt(numBathrooms),
+      category: "",
+    };
+    searchModal.setQuery(newSearchQuery);
+    searchModal.close();
+  };
 
   const _setDateRange = (section: Range) => {
     if (searchModal.step === "checkin") {
@@ -94,12 +111,72 @@ const SearchModal = () => {
     </>
   );
 
+  const contentDetail = (
+    <>
+      <h2 className="mb-6 text-2xl">Details</h2>
+
+      <div className="space-y-4">
+        <div className=" space-y-4">
+          <label>Number of guests</label>
+          <input
+            type="number"
+            className="border w-full p-2 border-gray-300 rounded-xl"
+            min="1"
+            placeholder="Number of guests..."
+            value={numGuests}
+            onChange={(e) => setNumGuests(e.target.value)}
+          />
+        </div>
+
+        <div className=" space-y-4">
+          <label>Number of bedrooms</label>
+          <input
+            type="number"
+            className="border w-full p-2 border-gray-300 rounded-xl"
+            min="1"
+            placeholder="Number of bedromms..."
+            value={numBedrooms}
+            onChange={(e) => setNumBedrooms(e.target.value)}
+          />
+        </div>
+
+        <div className=" space-y-4">
+          <label>Number of bathrooms</label>
+          <input
+            type="number"
+            className="border w-full p-2 border-gray-300 rounded-xl"
+            min="1"
+            placeholder="Number of bathrooms..."
+            value={numBathrooms}
+            onChange={(e) => setNumBathrooms(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-row gap-4">
+        <CustomButton
+          label="Search ->"
+          className="mt-6"
+          onClick={closeAndSearch}
+        />
+
+        <CustomButton
+          label="<- Check out"
+          className="mt-6"
+          onClick={() => searchModal.open("checkout")}
+        />
+      </div>
+    </>
+  );
+
   if (searchModal.step === "location") {
     content = contentLocation;
   } else if (searchModal.step === "checkin") {
     content = contentCheckin;
   } else if (searchModal.step === "checkout") {
     content = contentCheckout;
+  } else if (searchModal.step === "details") {
+    content = contentDetail;
   }
 
   return (

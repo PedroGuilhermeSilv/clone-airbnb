@@ -31,9 +31,37 @@ def properties_list(request):
     properties = Property.objects.all()
     favorites = []
 
+    category = request.GET.get("category", "")
+
+    if check_in := request.GET.get("checkIn", ""):
+        exact_matches = Reservation.objects.filter(
+            start_date=check_in,
+        ) | Reservation.objects.filter(
+            end_date=check_in,
+        )
+
+        overlapping_matches = Reservation.objects.filter(
+            start_date__lte=check_in,
+            end_date__gt=check_in,
+        )
+        all_matches = [
+            reservaiton.property.id
+            for reservaiton in exact_matches | overlapping_matches
+        ]
+
+        properties = properties.exclude(id__in=all_matches)
     if landloard_id := request.GET.get("landloard", ""):
         properties = properties.filter(landlord=landloard_id)
-
+    if guests := request.GET.get("guests", ""):
+        properties = properties.filter(guests__gte=guests)
+    if bedrooms := request.GET.get("bedrooms", ""):
+        properties = properties.filter(bedrooms__gte=bedrooms)
+    if bathrooms := request.GET.get("bathrooms", ""):
+        properties = properties.filter(bathrooms__gte=bathrooms)
+    if country := request.GET.get("country", ""):
+        properties = properties.filter(country=country)
+    if category and category != "undefined":
+        properties = properties.filter(category=category)
     if user:
         for property in properties:
             if user in property.favorited.all():
@@ -42,6 +70,8 @@ def properties_list(request):
         properties = properties.filter(id__in=favorites)
 
     serializer = PropertiesListSerializer(properties, many=True)
+    print(serializer.data)
+
     return JsonResponse(
         {
             "data": serializer.data,
