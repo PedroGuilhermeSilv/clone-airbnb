@@ -2,19 +2,28 @@
 import useSingupModal from "../hooks/useSingupModal";
 import CustomButton from "../forms/CustomButton";
 import Modal from "./Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import apiService from "../../service/apiService";
 import { handleLogin } from "@/app/lib/actions";
+import Image from "next/image";
 
 const SingupModal = () => {
   const router = useRouter();
   const singupModal = useSingupModal();
+
   const [errors, setError] = useState<string[]>([]);
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [name, setName] = useState("");
+
+  const loginGoogle = async () => {
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}&prompt=consent&response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID_GOOGLE}&scope=openid%20email%20profile&access_type=offline`;
+    router.push(url);
+    console.log(url);
+  };
 
   const submitSingup = async () => {
     const formData = {
@@ -46,7 +55,7 @@ const SingupModal = () => {
   const content = (
     <div className=" space-y-4">
       <form action={submitSingup} className="space-y-5">
-      <input
+        <input
           onChange={(e) => setName(e.target.value)}
           className="rounded-xl border border-gray-100 w-full  h-[54px] p-3"
           placeholder="Text your username"
@@ -82,6 +91,23 @@ const SingupModal = () => {
         })}
 
         <CustomButton label="Submit" onClick={submitSingup} />
+        <div
+          onClick={loginGoogle}
+          className="flex flex-row justify-center border rounded-xl border-gray-300 p-1 cursor-pointer hover:bg-gray-200"
+        >
+          <div className="google-icon-wrapper ">
+            <Image
+              width={30}
+              height={30}
+              className=""
+              src="/icons8-google-48.png"
+              alt="Google logo"
+            />
+          </div>
+          <p className="btn-text mt-1">
+            <b>Sign in with Google</b>
+          </p>
+        </div>
       </form>
     </div>
   );

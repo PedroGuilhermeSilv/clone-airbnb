@@ -63,7 +63,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-REST_AUTH  = {
+REST_AUTH = {
     "REGISTER_SERIALIZER": "src.django_project.useraccount_app.serializers.CustomRegisterSerializer",
 }
 
@@ -94,12 +94,14 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "allauth",
     "allauth.account",
+    "allauth.socialaccount.providers.google",
     "dj_rest_auth",
     "allauth.socialaccount",
     "dj_rest_auth.registration",
     "corsheaders",
 ]
-
+ACCOUNT_EMAIL_VERIFICATION = "none"
+GOOGLE_REDIRECT_URL = "http://localhost:3000/"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
