@@ -49,5 +49,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def avatar_url(self):
         return f"{settings.WEBSITE_URL}{self.avatar.url}" if self.avatar else ""
-
-

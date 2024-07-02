@@ -17,7 +17,7 @@ const LoadingModal: React.FC<LoadingModalProps> = async ({ code }) => {
   useEffect(() => {
     const fetchCode = async () => {
       const response = await apiService.get(`/api/auth/google/?code=${code}`);
-      console.log(response,"aqui");
+      console.log(response, "aqui");
       if (response.data) {
         loginModal.close();
       }

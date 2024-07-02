@@ -47,9 +47,17 @@ def create_user_by_google(request):
     code = request.query_params.get("code")
     token = get_google_access_token(code)
     user_info = get_google_user_info(token)
-    print(user_info, "useralkçsdnvsçdklvnsdfklvjnsdflvkjnsdflvkjsndfvlksjnd")
-    print(token)
-    print(code)
+
+    if user_info:
+        print("Tentando cadastrar")
+        User.objects.get_or_create(
+            email=user_info["email"],
+            name=user_info["name"],
+        )
+        print("Pessoa cadastrada")
+
     return JsonResponse(
-        user_info,
+        {
+            "data": "User created",
+        },
     )

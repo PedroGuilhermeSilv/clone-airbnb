@@ -8,7 +8,7 @@ export default function Home({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   if (searchParams.code) {
-    return <LoadingModal code={searchParams.code} />;
+    console.log(searchParams.code);
   }
 
   return (

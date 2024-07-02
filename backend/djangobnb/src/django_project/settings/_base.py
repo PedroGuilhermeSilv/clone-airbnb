@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -47,6 +47,9 @@ SIMPLE_JWT = {
     "SIGNING_KEY": "complexykey",
     "ALGORITHM": "HS256",
 }
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+REDIRECT_URI = os.getenv("REDIRECT_URI")
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
