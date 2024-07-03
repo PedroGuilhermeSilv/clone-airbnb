@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django_project.chat_app.views import UserAuthentication
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -29,6 +30,7 @@ def user_detail(request, pk):
 
 
 @api_view(["GET"])
+@authentication_classes([UserAuthentication])
 def reservation_list(request):
     reservations = request.user.reservations.all()
 
@@ -46,11 +48,19 @@ def reservation_list(request):
 def create_user_by_google(request):
     code = request.query_params.get("code")
     token = get_google_access_token(code)
-    user_info = get_google_user_info(token)
-
+    print(token)
+    if token is None:
+        return JsonResponse(
+            {
+                "error": "Invalid code",
+            },
+            status=400,
+        )
+    user_info = get_google_user_info(token["access_token"])
+    print(user_info)
     if user_info:
         print("Tentando cadastrar")
-        User.objects.get_or_create(
+        user = User.objects.get_or_create(
             email=user_info["email"],
             name=user_info["name"],
         )
@@ -58,6 +68,9 @@ def create_user_by_google(request):
 
     return JsonResponse(
         {
-            "data": "User created",
+            "token": token["id_token"],
+            "user_id": User.objects.get(email=user_info["email"]).id,
+            "refresh_token": token["refresh_token"],
         },
+        status=200,
     )

@@ -1,3 +1,4 @@
+
 import Categories from "./components/home/Categories";
 import LoadingModal from "./components/modals/LoadingModal";
 import PropertyList from "./components/properties/PropertyList";
@@ -8,7 +9,7 @@ export default function Home({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   if (searchParams.code) {
-    console.log(searchParams.code);
+    return <LoadingModal code={searchParams.code} />;
   }
 
   return (

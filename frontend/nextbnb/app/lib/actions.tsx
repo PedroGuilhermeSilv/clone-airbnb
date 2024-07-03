@@ -32,6 +32,7 @@ export async function handleRefreshToken() {
     console.log(error);
     resetAuthCookies();
   });
+  resetAuthCookies();
 
   return token;
   

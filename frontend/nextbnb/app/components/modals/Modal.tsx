@@ -7,13 +7,23 @@ interface ModalProps {
   close: () => void;
   content: React.ReactElement;
   isOpen: boolean;
+  onOpen?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ label, content, isOpen, close }) => {
+const Modal: React.FC<ModalProps> = ({
+  label,
+  content,
+  isOpen,
+  close,
+  onOpen,
+}) => {
   const [showModal, setShowModal] = useState(isOpen);
 
   useEffect(() => {
     setShowModal(isOpen);
+    if (isOpen && onOpen) {
+      onOpen();
+    }
   }, [isOpen]);
 
   const handleClose = useCallback(() => {
@@ -33,9 +43,7 @@ const Modal: React.FC<ModalProps> = ({ label, content, isOpen, close }) => {
       <div className="relative w-[90%] md:w-[80%] lg:w-[700px] my-6 mx-auto h-auto">
         <div
           className={`translate duration-600 h-full ${
-            showModal
-              ? "translate-y-0 opacity-100"
-              : "translate-y-0 opacity-10"
+            showModal ? "translate-y-0 opacity-100" : "translate-y-0 opacity-10"
           }`}
         >
           <div className="w-full h-auto rounded-xl relative flex flex-col bg-white">

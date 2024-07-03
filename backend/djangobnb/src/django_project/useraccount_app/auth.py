@@ -1,7 +1,7 @@
 import requests
+from django.conf import settings
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-from django.conf import settings
 
 
 # Função para obter informações do usuário
@@ -13,10 +13,11 @@ def get_google_user_info(access_token):
 
 def get_google_access_token(code):
     url = "https://oauth2.googleapis.com/token"
+
     data = {
         "code": code,
-        "client_id": settings.GOOGLE_CLIENT_ID,
-        "client_secret": settings.GOOGLE_CLIENT_SECRET,
+        "client_id": settings.CLIENT_ID,
+        "client_secret": settings.CLIENT_SECRET,
         "redirect_uri": settings.REDIRECT_URI,
         "grant_type": "authorization_code",
     }
@@ -24,4 +25,5 @@ def get_google_access_token(code):
         "Content-Type": "application/x-www-form-urlencoded",
     }
     response = requests.post(url, data=data, headers=headers)
-    return response.json()["access_token"] if response.status_code == 200 else None
+    print(response.json())
+    return response.json() if response.status_code == 200 else None

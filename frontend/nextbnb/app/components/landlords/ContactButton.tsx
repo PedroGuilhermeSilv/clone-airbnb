@@ -4,6 +4,7 @@ import apiService from "@/app/service/apiService";
 import useLoginModal from "../hooks/useLoginModal";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { getAccessToken } from "@/app/lib/actions";
 
 interface ContactButtonProps {
   userId?: string;
@@ -16,8 +17,11 @@ const ContactButton: React.FC<ContactButtonProps> = ({
 }) => {
   const longiModel = useLoginModal();
   const router = useRouter();
-
+  let token: string | undefined;
+  
   const startConversation = async () => {
+    token = await getAccessToken();
+    console.log(token);
     if (userId) {
       const response = await apiService.get(`/api/chat/start/${landlord_id}/`);
       if (response.conversation_id) {

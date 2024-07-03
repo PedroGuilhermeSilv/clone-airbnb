@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django_project.chat_app.views import UserAuthentication
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -107,6 +108,7 @@ def reservation_list(request, pk):
 
 
 @api_view(["POST", "FILES"])
+@authentication_classes([UserAuthentication])
 def create_property(request):
     form = PropertyForm(request.POST, request.FILES)
     if form.is_valid():
@@ -128,6 +130,7 @@ def create_property(request):
 
 
 @api_view(["POST"])
+@authentication_classes([UserAuthentication])
 def book_property(request, pk):
     try:
         property = Property.objects.get(pk=pk)
@@ -163,6 +166,7 @@ def book_property(request, pk):
 
 
 @api_view(["POST"])
+@authentication_classes([UserAuthentication])
 def toggle_favorite(request, pk):
     property = Property.objects.get(pk=pk)
 
