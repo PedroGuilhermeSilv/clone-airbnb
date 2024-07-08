@@ -2,15 +2,16 @@ import { rejects } from "assert";
 import { getAccessToken } from "../lib/actions";
 
 const apiService = {
-  get: async function (
+  get: async function <T>(
     url: string,
     accept?: string,
     contentType?: string
-  ): Promise<any> {
+  ): Promise<{ status: number; data: T }> {
     console.log("GET", url);
 
     const tokenId = await getAccessToken();
-    return new Promise((resolve, reject) => {
+    
+    return new Promise<{ status: number; data: T }>((resolve, reject) => {
       const headers: { [key: string]: string } = {};
       if (tokenId) {
         headers["Authorization"] = `Bearer ${tokenId}`;
@@ -26,11 +27,16 @@ const apiService = {
         method: "GET",
         headers: headers,
       })
-        .then((response) => response.json())
-        .then((json) => {
-          console.log("response", json);
-
-          resolve(json);
+        .then((response) => {
+          const status = response.status;
+          response
+            .json()
+            .then((data) => {
+              resolve({ status, data }); // Retorna o status junto com os dados
+            })
+            .catch((error) => {
+              reject(error);
+            });
         })
         .catch((error) => {
           reject(error);

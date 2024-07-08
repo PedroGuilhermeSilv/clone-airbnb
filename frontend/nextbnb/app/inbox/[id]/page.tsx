@@ -1,6 +1,6 @@
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import { getUserId } from "@/app/lib/actions";
-import { UserType } from "../page";
+import { ConversationType, UserType } from "../page";
 import apiService from "@/app/service/apiService";
 import { getAccessToken } from "@/app/lib/actions";
 
@@ -13,6 +13,11 @@ export type MessageType = {
   created_by: UserType;
 };
 
+
+export type ResponseMessageType = {
+conversation: ConversationType;
+messages: MessageType[]
+}
 const ConversationPage = async ({ params }: { params: { id: string } }) => {
   const userId = await getUserId();
   const token = await getAccessToken();
@@ -27,7 +32,7 @@ const ConversationPage = async ({ params }: { params: { id: string } }) => {
       </main>
     );
   }
-  const conversation = await apiService.get(`/api/chat/${params.id}`);
+  const conversation = await apiService.get<ResponseMessageType>(`/api/chat/${params.id}`);
   () => {};
   return (
     <>
@@ -35,8 +40,8 @@ const ConversationPage = async ({ params }: { params: { id: string } }) => {
         <ConversationDetail
           token={token}
           userId={userId}
-          messages={conversation.messages}
-          conversation={conversation.conversation}
+          messages={conversation.data.messages}
+          conversation={conversation.data.conversation}
         />
       </main>
       ;

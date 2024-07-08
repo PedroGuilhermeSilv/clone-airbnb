@@ -27,22 +27,21 @@ class UserAuthentication(BaseAuthentication):
         bearer = request.headers.get("Authorization")
         token = bearer.split(" ")[1] if bearer else None
 
-        print(token, "token")
-
         if not token:
             return None
 
         try:
             payload = decodificar_jwt(token)
 
+
         except Exception:
             raise AuthenticationFailed("Erro ao decodificar JWT")
 
         try:
-            if payload.get("name"):
-                user = User.objects.get(name=payload["name"])
+            if payload.get("email"):
+                user = User.objects.get(email=payload.get("email"))
             elif payload.get("user_id"):
-                user = User.objects.get(id=payload["user_id"])
+                user = User.objects.get(id=payload.get("user_id"))
             else:
                 raise AuthenticationFailed(
                     "Payload do JWT não contém identificador do usuário",
@@ -53,14 +52,15 @@ class UserAuthentication(BaseAuthentication):
         return (
             user,
             None,
-        )  # Retorna o usuário autenticado e o token (ou None se não aplicável)
+        )
 
 
 @api_view(["GET"])
 @authentication_classes([UserAuthentication])
 def conversations_list(request):
-    serializer = ConversationListSerialzier(request.user.conversations.all(), many=True)
 
+    serializer = ConversationListSerialzier(request.user.conversations.all(), many=True)
+    print(serializer.data)
     return JsonResponse(
         {
             "data": serializer.data,
@@ -78,7 +78,8 @@ def conversation_detail(request, pk):
         conversation.messages.all(),
         many=True,
     )
-
+    print(conversation_serializer.data)
+    print(message_serializer.data)
     return JsonResponse(
         {
             "conversation": conversation_serializer.data,

@@ -25,5 +25,6 @@ def get_google_access_token(code):
         "Content-Type": "application/x-www-form-urlencoded",
     }
     response = requests.post(url, data=data, headers=headers)
+    print(response.status_code)
     print(response.json())
     return response.json() if response.status_code == 200 else None

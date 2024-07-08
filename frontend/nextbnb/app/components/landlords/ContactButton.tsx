@@ -11,6 +11,11 @@ interface ContactButtonProps {
   landlord_id: string;
 }
 
+interface Response {
+  conversation_id: string;
+  sucess: boolean;
+}
+
 const ContactButton: React.FC<ContactButtonProps> = ({
   userId,
   landlord_id,
@@ -18,14 +23,14 @@ const ContactButton: React.FC<ContactButtonProps> = ({
   const longiModel = useLoginModal();
   const router = useRouter();
   let token: string | undefined;
-  
+
   const startConversation = async () => {
     token = await getAccessToken();
     console.log(token);
     if (userId) {
-      const response = await apiService.get(`/api/chat/start/${landlord_id}/`);
-      if (response.conversation_id) {
-        router.push(`/inbox/${response.conversation_id}`);
+      const response = await apiService.get<Response>(`/api/chat/start/${landlord_id}/`);
+      if (response.data.conversation_id) {
+        router.push(`/inbox/${response.data.conversation_id}`);
       }
     } else {
       longiModel.open();

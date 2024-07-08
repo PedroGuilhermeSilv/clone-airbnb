@@ -7,35 +7,50 @@ import apiService from "@/app/service/apiService";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useRouter } from "next/navigation";
 import { handleLogin } from "@/app/lib/actions";
+import { is } from "date-fns/locale";
 
 interface LoadingModalProps {
   code: string | string[];
 }
+interface Response {
+  user_id: string;
+  token: string;
+  refresh_token: string;
+}
 
 const LoadingModal: React.FC<LoadingModalProps> = ({ code }) => {
   const loginModal = useLoadingModal();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [label, setLabel] = useState("Loading...");
   const router = useRouter();
+
+  const close = () => {
+    loginModal.close();
+    setLoading(false);
+    router.push("/");
+  }
   console.log(code);
   const fetchApiData = async () => {
-    setLoading(true);
     try {
-      const response = await apiService.get(`/api/auth/google/?code=${code}`);
-      console.log(response);
-      if (response.token) {
-        handleLogin(response.user_id, response.token, response.refresh_token);
+      const response = await apiService.get<Response>(
+        `/api/auth/google/?code=${code}`
+      );
+      console.log("Response aq", response.status);
+      if (response.status == 200) {
+        handleLogin(
+          response.data.user_id,
+          response.data.token,
+          response.data.refresh_token
+        );
         loginModal.close();
         router.push("/");
-        // router.refresh(); // Dependendo da versão do Next.js, router.refresh() pode não ser necessário
       } else {
-        console.log("Acesso negado ou erro na resposta");
+        setLabel("Acesso negado ou erro na resposta");
+
       }
     } catch (error) {
-      console.error("Erro ao buscar dados da API:", error);
-    } finally {
-      setLoading(false);
-    }
+      setLabel(`Erro: ${error}`); 
+    } 
   };
   const content = (
     <div className="flex justify-center">
@@ -47,7 +62,7 @@ const LoadingModal: React.FC<LoadingModalProps> = ({ code }) => {
       label={label}
       content={content}
       isOpen={loginModal.isOpen}
-      close={loginModal.close}
+      close={close}
       onOpen={fetchApiData}
     />
   );

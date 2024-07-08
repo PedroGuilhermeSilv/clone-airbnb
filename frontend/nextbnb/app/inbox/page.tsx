@@ -14,6 +14,10 @@ export type ConversationType = {
   users: UserType[];
 };
 
+type Response ={
+  data: ConversationType[];
+}
+
 const InboxPage = async () => {
   const userId = await getUserId();
 
@@ -25,13 +29,22 @@ const InboxPage = async () => {
     );
   }
 
-  const conversations = await apiService.get("/api/chat/");
+  const conversations = await apiService.get<Response>("/api/chat/");
+  console.log(conversations);
+
+  if (conversations.status !== 200) {
+    return (
+      <main className="max-w-[1500px] max-auto px-6 py-12">
+        <p>Something went wrong...</p>
+      </main>
+    );
+  }
 
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6 space-y-4">
       <h1 className="my-6 text-2xl">Inbox</h1>
 
-      {conversations.data.map((conversation: ConversationType) => {
+      {conversations.data.data.map((conversation: ConversationType) => {
         return <Conversation userId={userId} conversation={conversation} />;
       })}
     </main>

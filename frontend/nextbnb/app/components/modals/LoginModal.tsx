@@ -7,8 +7,7 @@ import CustomButton from "../forms/CustomButton";
 import { useRouter } from "next/navigation";
 import apiService from "@/app/service/apiService";
 import { handleLogin } from "@/app/lib/actions";
-import { errorToJSON } from "next/dist/server/render";
-
+import Image from "next/image";
 const LoginModal = () => {
   const loginModal = useLoginModal();
   const router = useRouter();
@@ -16,6 +15,11 @@ const LoginModal = () => {
   const [password, setPassword] = useState("");
   const [errors, setError] = useState<string[]>([]);
 
+  const loginGoogle = async () => {
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}&prompt=consent&response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID_GOOGLE}&scope=openid%20email%20profile&access_type=offline`;
+    router.push(url);
+    console.log(url);
+  };
   const submitLogin = async () => {
     const formData = {
       email: email,
@@ -27,8 +31,8 @@ const LoginModal = () => {
       "application/json",
       "application/json"
     );
-
     if (response.access) {
+      console.log(response.status);
       handleLogin(response.user.pk, response.access, response.refresh);
 
       loginModal.close();
@@ -69,6 +73,23 @@ const LoginModal = () => {
         })}
 
         <CustomButton label="Submit" onClick={submitLogin} />
+        <div
+          onClick={loginGoogle}
+          className="flex flex-row justify-center border rounded-xl border-gray-300 p-1 cursor-pointer hover:bg-gray-200"
+        >
+          <div className="google-icon-wrapper ">
+            <Image
+              width={30}
+              height={30}
+              className=""
+              src="/icons8-google-48.png"
+              alt="Google logo"
+            />
+          </div>
+          <p className="btn-text mt-1">
+            <b>Log in with Google</b>
+          </p>
+        </div>
       </form>
     </div>
   );

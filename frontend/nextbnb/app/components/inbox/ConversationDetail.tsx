@@ -21,7 +21,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
   messages,
 }) => {
   console.log(conversation);
-  const messagesDiv = useRef(null);
+  const messagesDiv = useRef<HTMLDivElement>(null);
   const [newMessage, setNewMessage] = useState("");
   const [realtimeMessages, setRealTimeMessages] = useState<MessageType[]>([]);
   const [oldMessages, setOldMessages] = useState<MessageType[]>([]);
@@ -87,7 +87,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         ref={messagesDiv}
         className=" h-max[400px] flex flex-col overflow-auto space-y-4"
       >
-         {messages.map((message, index) => (
+        {messages.map((message, index) => (
           <div
             key={index}
             className={`w-[80%] px-6 py-4 rounded-xl ${

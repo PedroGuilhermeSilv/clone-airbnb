@@ -1,11 +1,10 @@
 from django.http import JsonResponse
-from django_project.chat_app.views import UserAuthentication
+from django_project.chat_app.views import UserAuthentication, decodificar_jwt
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
     permission_classes,
 )
-from rest_framework_simplejwt.tokens import AccessToken
 
 from src.django_project.property_app.forms import PropertyForm
 from src.django_project.property_app.models import Property, Reservation
@@ -23,9 +22,12 @@ from src.django_project.useraccount_app.models import User
 def properties_list(request):
     try:
         token = request.META["HTTP_AUTHORIZATION"].split("Bearer ")[1]
-        token = AccessToken(token)
-        user_id = token.payload["user_id"]
-        user = User.objects.get(pk=user_id)
+        token = decodificar_jwt(token)
+
+        if user_email := token.get("email"):
+            user = User.objects.get(email=user_email)
+        elif user_id := token.get("user_id"):
+            user = User.objects.get(id=user_id)
     except Exception:
         user = None
 
@@ -63,6 +65,7 @@ def properties_list(request):
         properties = properties.filter(country=country)
     if category and category != "undefined":
         properties = properties.filter(category=category)
+    print(user)
     if user:
         for property in properties:
             if user in property.favorited.all():
@@ -87,7 +90,7 @@ def properties_list(request):
 def property_detail(request, pk):
 
     serializer = PropertiesDetailSerializer(Property.objects.get(pk=pk))
-
+    print(serializer.data)
     return JsonResponse(
         serializer.data,
     )

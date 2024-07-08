@@ -20,6 +20,11 @@ interface PropertyListProps {
   landloard?: string;
   favorites?: boolean;
 }
+
+interface PropertyListResponse {
+  data: PropertyType[];
+  favorites: string[];
+}
 const PropertyList: React.FC<PropertyListProps> = ({
   landloard,
   favorites,
@@ -86,11 +91,11 @@ const PropertyList: React.FC<PropertyListProps> = ({
     }
     console.log(url);
 
-    const response = await apiService.get(url);
+    const response = await apiService.get<PropertyListResponse>(url);
 
     setProperties(
-      response.data.map((property: PropertyType) => {
-        if (response.favorites.includes(property.id)) {
+      response.data.data.map((property: PropertyType) => {
+        if (response.data.favorites.includes(property.id)) {
           property.favorited = true;
         } else {
           property.favorited = false;

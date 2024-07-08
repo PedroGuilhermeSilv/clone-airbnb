@@ -24,6 +24,15 @@ export type PropertyType = {
   price_per_night: number;
 };
 
+interface Reservation {
+  id: string;
+  property: string;
+  start_date: Date;
+  end_date: Date;
+  number_of_nights: number;
+  total_price: number;
+}
+type Response = Reservation[];
 interface ReservationSidebarProps {
   userId?: string;
   property: PropertyType;
@@ -74,14 +83,14 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
   };
 
   const getReservations = async () => {
-    const response = await apiService.get(
+    const response = await apiService.get<Response>(
       `/api/properties/${property.id}/reservations/`,
       "application/json",
       "application/json"
     );
     let dates: Date[] = [];
 
-    response.forEach((reservation: any) => {
+    response.data.forEach((reservation: any) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.start_date),
         end: new Date(reservation.end_date),
