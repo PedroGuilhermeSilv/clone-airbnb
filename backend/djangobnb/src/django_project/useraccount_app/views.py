@@ -1,7 +1,6 @@
 import requests
 from django.core.files.base import ContentFile
 from django.http import JsonResponse
-from django_project.chat_app.views import UserAuthentication
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -10,13 +9,16 @@ from rest_framework.decorators import (
 
 from src.django_project.property_app.serializers import ReservationListSerializer
 from src.django_project.useraccount_app.auth import (
+    UserAuthentication,
     get_google_access_token,
     get_google_user_info,
 )
 from src.django_project.useraccount_app.models import User
 from src.django_project.useraccount_app.serializers import (
+    RequestCreateUsers,
     UserDetailSerializer,
 )
+from src.django_project.useraccount_app.tasks import send_confirmation_email
 
 
 def save_profile_image_from_url(user, image_url):
@@ -47,7 +49,6 @@ def reservation_list(request):
     reservations = request.user.reservations.all()
 
     serializer = ReservationListSerializer(reservations, many=True)
-    print(serializer.data)
     return JsonResponse(
         {"data": serializer.data},
         safe=False,
@@ -63,8 +64,7 @@ def create_user_by_google(request):
     if token is None:
         return JsonResponse({"error": "Invalid code"}, status=400)
 
-    user_info = get_google_user_info(token["access_token"])
-    if user_info:
+    if user_info := get_google_user_info(token["access_token"]):
         user, created = User.objects.get_or_create(
             email=user_info["email"],
             name=user_info["name"],  # Use 'defaults' para definir valores iniciais
@@ -81,3 +81,23 @@ def create_user_by_google(request):
             status=200,
         )
     return JsonResponse({"error": "Invalid token"}, status=400)
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+def create_user(request):
+    serializer = RequestCreateUsers(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    # user = User.objects.create_user(
+    #     email=request.data["email"],
+    #     name=request.data["name"],
+    #     password=request.data["password"],
+    # )
+    result = send_confirmation_email.delay()
+    return JsonResponse(
+        {
+            "taks": result.id,
+        },
+        status=201,
+    )

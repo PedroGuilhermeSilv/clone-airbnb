@@ -1,58 +1,14 @@
-import base64
-import json
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
-from rest_framework.authentication import BaseAuthentication
 from rest_framework.decorators import api_view, authentication_classes
-from rest_framework.exceptions import AuthenticationFailed
 
 from src.django_project.chat_app.models import Conversation
 from src.django_project.chat_app.serializers import (
     ConversationListSerialzier,
     ConversationMessageSerializer,
 )
+from src.django_project.useraccount_app.auth import UserAuthentication
 from src.django_project.useraccount_app.models import User
-
-
-def decodificar_jwt(token):
-    header, payload, signature = token.split(".")
-    payload_decoded = base64.b64decode(payload).decode("utf-8")
-
-    return json.loads(payload_decoded)
-
-
-class UserAuthentication(BaseAuthentication):
-    def authenticate(self, request):
-        bearer = request.headers.get("Authorization")
-        token = bearer.split(" ")[1] if bearer else None
-
-        if not token:
-            return None
-
-        try:
-            payload = decodificar_jwt(token)
-
-
-        except Exception:
-            raise AuthenticationFailed("Erro ao decodificar JWT")
-
-        try:
-            if payload.get("email"):
-                user = User.objects.get(email=payload.get("email"))
-            elif payload.get("user_id"):
-                user = User.objects.get(id=payload.get("user_id"))
-            else:
-                raise AuthenticationFailed(
-                    "Payload do JWT não contém identificador do usuário",
-                )
-        except ObjectDoesNotExist:
-            raise AuthenticationFailed("Usuário não encontrado")
-
-        return (
-            user,
-            None,
-        )
 
 
 @api_view(["GET"])

@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django_project.chat_app.views import UserAuthentication, decodificar_jwt
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -13,6 +12,7 @@ from src.django_project.property_app.serializers import (
     PropertiesListSerializer,
     ReservationListSerializer,
 )
+from src.django_project.useraccount_app.auth import UserAuthentication, decodificar_jwt
 from src.django_project.useraccount_app.models import User
 
 

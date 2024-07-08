@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-RUN apt update && apt-get upgrade && apt install -y --no-install-recommends \
+RUN apt update && apt-get upgrade -y && apt install -y --no-install-recommends \
     default-jre \
     git \
     ssh \

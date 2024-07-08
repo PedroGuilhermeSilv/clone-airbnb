@@ -24,6 +24,10 @@ dependencies = [
     "google-auth-oauthlib>=1.2.0",
     "google-api-python-client>=2.134.0",
     "PyJWT>=2.8.0",
+    "celery>=5.4.0",
+    "redis>=5.0.7",
+    "python-jose>=3.3.0",
+    "resend>=2.2.0",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
