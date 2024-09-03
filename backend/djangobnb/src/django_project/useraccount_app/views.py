@@ -18,11 +18,11 @@ from src.django_project.useraccount_app.serializers import (
     RequestCreateUsers,
     UserDetailSerializer,
 )
-from src.django_project.useraccount_app.tasks import send_confirmation_email
 
 
 def save_profile_image_from_url(user, image_url):
-    response = requests.get(image_url)
+
+    response = requests.get(image_url, timeout=10)
     if response.status_code == 200:
         user.avatar.save(
             f"{user.id}_profile.jpg",
@@ -67,9 +67,9 @@ def create_user_by_google(request):
     if user_info := get_google_user_info(token["access_token"]):
         user, created = User.objects.get_or_create(
             email=user_info["email"],
-            name=user_info["name"],  # Use 'defaults' para definir valores iniciais
+            name=user_info["name"],
         )
-        # Chame save_profile_image_from_url independentemente de o usuário ser criado ou atualizado
+
         save_profile_image_from_url(user, user_info["picture"])
 
         return JsonResponse(
@@ -89,15 +89,22 @@ def create_user_by_google(request):
 def create_user(request):
     serializer = RequestCreateUsers(data=request.data)
     serializer.is_valid(raise_exception=True)
-    # user = User.objects.create_user(
-    #     email=request.data["email"],
-    #     name=request.data["name"],
-    #     password=request.data["password"],
+    user = User.objects.create_user(
+        email=request.data["email"],
+        name=request.data["name"],
+        password=request.data["password"],
+    )
+    # result = send_confirmation_email.delay()
+    # return JsonResponse(
+    #     {
+    #         "taks": result.id,
+    #     },
+    #     status=201,
     # )
-    result = send_confirmation_email.delay()
+
     return JsonResponse(
         {
-            "taks": result.id,
+            "user_id": user.id,
         },
         status=201,
     )

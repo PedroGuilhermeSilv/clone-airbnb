@@ -2,7 +2,8 @@
 import os
 
 import resend
-from django_project.externals.celery import app
+
+from src.django_project.externals.celery import app
 
 
 @app.task()
